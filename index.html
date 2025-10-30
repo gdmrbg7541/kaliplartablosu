@@ -2,7 +2,7 @@
 <html lang="tr" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Kelimenin Serüveni - Seviye 2</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,14 @@
             --circle-font-size: 1.1em; 
         }
 
-        html, body { height: 100%; margin: 0; padding: 0; overflow: hidden; }
+        html, body { 
+            height: 100%; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+            /* GÜNCELLENDİ - Dokunmatik kaydırmayı engelle */
+            overscroll-behavior: none;
+        }
         body {
             font-family: var(--font-family) !important;
             background-color: var(--background-color); color: var(--text-color);
@@ -59,26 +66,25 @@
 
         #l2-root-area {
             display: grid;
-            grid-template-columns: 1fr auto 1fr;
+            /* GÜNCELLENDİ - Sadece 2 sütun, ekler dışarı taşındı */
+            grid-template-columns: 1fr auto; 
             align-items: center; 
-            gap: 0px; 
+            gap: 10px; 
             padding: 5px 0px; 
             margin-bottom: 10px;
         }
         
+        /* GÜNCELLENDİ - Ekler HTML'de dışarı taşındı */
         .l2-passive-suffixes {
-            grid-column: 3; /* Sol Sütun */
-            justify-self: end; 
-            align-self: center; 
             font-family: var(--font-family-arabic) !important;
-            font-size: 2.5em; 
+            font-size: 2.2em; /* Masaüstü boyutu küçültüldü */
             color: var(--text-color); 
             opacity: 1;
             direction: rtl;
-            text-align: right; 
+            text-align: center; 
             user-select: none;
-            margin-right: 20px; 
-            transition: opacity 0.5s ease; /* Fade out için transition */
+            margin-top: 10px; /* Kalıplardan sonra boşluk */
+            transition: opacity 0.5s ease;
         }
         .l2-passive-suffixes.faded {
              opacity: 0.3; /* Daha soluk */
@@ -102,21 +108,19 @@
             background-color: rgba(255, 255, 255, 0.4); 
             backdrop-filter: blur(10px); 
             border: 1px solid rgba(255, 255, 255, 0.2); 
-            color: var(--text-color); /* Varsayılan renk, span ile ezilecek */
+            color: var(--text-color); 
             border-radius: 15px; 
             cursor: grab; 
-            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.5s ease; /* Opacity transition eklendi */
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, opacity 0.5s ease; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
             user-select: none; 
             position: relative;
             z-index: 2;
-            /* GÜNCELLENDİ - Dokunmatik sürükleme için önemli */
             touch-action: none; 
         }
         .l2-draggable-root span { 
             display: inline-block; 
             font-family: var(--font-family-arabic) !important; /* Harmattan */ 
-            /* Renk JavaScript ile ayarlanacak */
         }
         
         .l2-draggable-root:hover { 
@@ -128,17 +132,30 @@
         .l2-draggable-root.faded {
             opacity: 0.3; /* Daha soluk */
             pointer-events: none;
-            cursor: default; /* Fade olduğunda sürükleme imlecini kaldır */
+            cursor: default; 
         }
         
-        .drag-ghost { position: absolute; top: -1000px; left: -1000px; display: inline-flex; align-items: center; gap: 15px; padding: 8px 18px;
+        /* GÜNCELLENDİ - Sürüklenen hayalet kart (Büyük ve Saydam) */
+        .drag-ghost { 
+            position: absolute; top: -1000px; left: -1000px; 
+            display: inline-flex; align-items: center; gap: 15px; padding: 8px 18px;
             font-family: var(--font-family-arabic) !important; /* Harmattan */
-            font-size: calc(var(--base-font-size) * 1.1); font-weight: bold; line-height: 1; background-color: rgba(255, 255, 255, 0.9); border: 2px dashed var(--primary-color);
+            font-size: calc(var(--base-font-size) * 1.1); font-weight: bold; line-height: 1; 
+            background-color: rgba(255, 255, 255, 0.5); /* Daha saydam */
+            backdrop-filter: blur(5px); /* Hafif bulanık */
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: var(--text-color); 
-            border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); transform: scale(1.05); opacity: 0.8; pointer-events: none; z-index: 1000; direction: rtl !important; }
+            border-radius: 15px; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2); /* Daha belirgin gölge */
+            transform: scale(1.3); /* BÜYÜT */
+            opacity: 1; /* Opaklığı tam, saydamlığı bg ayarlasın */
+            pointer-events: none; 
+            z-index: 1000; 
+            direction: rtl !important; 
+        }
         .drag-ghost span { display: inline-block; font-family: var(--font-family-arabic) !important; /* Harmattan */ }
 
-        #l2-mistakes { display: none; } /* Can hakkı kaldırıldı */
+        #l2-mistakes { display: none; } 
 
         #l2-turkish-words-progress {
             display: flex;
@@ -220,6 +237,7 @@
             background-color: var(--background-color); 
             color: var(--light-text-color); 
             border-color: var(--border-color); 
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.08), -4px -4px 8px rgba(255,255,255,1);
         }
 
 
@@ -349,6 +367,7 @@
         .hidden { display: none !important; }
 
         /* OVERLAY STİLLERİ */
+        /* ... (Değişiklik yok) ... */
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(248, 249, 250, 0.97); display: flex; justify-content: center; align-items: center; text-align: center; z-index: 10; transition: opacity 0.3s, visibility 0.3s; direction: ltr; padding: 15px; box-sizing: border-box; }
         .overlay.hidden { opacity: 0; visibility: hidden; }
         .overlay-content { background: var(--panel-background); padding: 30px 40px; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width: 90%; margin: auto; direction: ltr; text-align: center; }
@@ -423,10 +442,11 @@
         @media (max-width: 600px) {
             :root { 
                 --base-font-size: 2.2em; /* Temel font küçültüldü */
-                --circle-size: 28px; /* Daire mobil boyutu */
-                --circle-font-size: 0.8em; /* Daire mobil font boyutu */
+                --circle-size: 26px; /* Daire mobil boyutu */
+                --circle-font-size: 0.7em; /* Daire mobil font boyutu */
             }
             #game-container { width: 98%; } 
+            .overlay-content { padding: 15px; max-height: 90vh; overflow-y: auto; }
             .start-options { flex-direction: column; }
             .image-previews { flex-direction: column; gap: 25px;}
             .image-preview img, .image-preview:nth-child(2) img { max-width: 100px; }
@@ -437,20 +457,20 @@
                 max-height: none; /* Yükseklik sınırı ve kaydırma kaldırıldı (sadece 6 kalıp var) */
                 overflow-y: visible; 
                 padding: 10px 5px; 
+                gap: 5px; /* Boşluk azaltıldı */
             }
 
             .l2-draggable-root { gap: 8px; font-size: calc(var(--base-font-size) * 1.1); padding: 5px 10px;}
             
             .l2-pattern-group { 
-                min-height: calc(var(--base-font-size) * 2.5); /* Yükseklik */
+                min-height: calc(var(--base-font-size) * 2.8); /* Yükseklik ayarlandı */
                 padding-right: calc(var(--circle-size) + 8px); /* Mobil boşluk */
             }
-             .l2-pattern-number { font-size: calc(var(--base-font-size) * 1); width: calc(100% - var(--circle-size) - 12px); } /* Mobil font */
-            .l2-derived-word { font-size: calc(var(--base-font-size) * 1); width: calc(100% - var(--circle-size) - 12px); }
+             .l2-pattern-number { font-size: calc(var(--base-font-size) * 0.9); width: calc(100% - var(--circle-size) - 12px); } /* Mobil font */
+            .l2-derived-word { font-size: calc(var(--base-font-size) * 0.9); width: calc(100% - var(--circle-size) - 12px); }
              .l2-derived-word span { font-size: 0.7em; } /* Emoji boyutu */
 
-            #level2-container { max-height: 98vh; overflow-y: auto; padding: 10px; }
-            .overlay-content { padding: 15px; max-height: 90vh; overflow-y: auto; }
+            #level2-container { max-height: 98vh; overflow-y: auto; padding: 10px 5px; } /* Yan boşluklar azaltıldı */
             
             /* Mobil Türkçe kelimeler: Yatayda sığdığı kadar (3 kelime) */
             #l2-turkish-words-progress { 
@@ -459,6 +479,7 @@
                 justify-content: center; 
                 gap: 5px;
                 padding: 5px;
+                margin: 5px 0; /* Dikey boşluk azaltıldı */
             } 
             .l2-turkish-word { font-size: 1em; padding: 5px 10px; margin: 2px; } /* Mobil için küçültüldü */
 
@@ -473,12 +494,12 @@
             }
             .l2-passive-suffixes { 
                 grid-column: auto; justify-self: auto; align-self: auto; 
-                font-size: 1.5em; /* Mobil için ayarlandı */
+                font-size: 1.4em; /* Mobil için ayarlandı */
                 text-align: center; 
                 width: 100%; 
-                order: 3; /* En alta */
                 margin-top: 5px; 
                 margin-right: 0; /* Sağ boşluk sıfırlandı */
+                /* Order artık HTML sırasına göre belirleniyor */
             }
             #l2-draggable-root-wrapper { 
                 grid-column: auto; align-self: auto; 
@@ -514,11 +535,11 @@
             <div id="l2-root-area">
                 <button id="next-button" class="hidden">İlerle ▶</button>
                 <div id="l2-draggable-root-wrapper"></div>
-                <div class="l2-passive-suffixes">ـ ـ ـة - ـ ـ ة | ـ ـ ـيّ - ـ ـ ـيَّة | ـ ـ ـات | ـ ـ ـًا</div>
             </div>
             <div id="l2-turkish-words-progress"></div>
             <div id="l2-mistakes"></div>
             <div id="l2-patterns-wrapper"></div>
+            <div class="l2-passive-suffixes">ـ ـ ـة - ـ ـ ة | ـ ـ ـيّ - ـ ـ ـيَّة | ـ ـ ـات | ـ ـ ـًا</div>
             <div id="l2-global-result"></div>
         </main>
 
@@ -541,7 +562,6 @@
     // GÜNCELLENDİ - Kelime düzeltmeleri
     const embeddedGameData = {
       "patterns": { /* Kalıp verileri */ 
-        // ... (Kalıp 1-34 arası aynı) ...
         "1": { "kalipNo": "1", "arapca": "فَعَلَ", "tur": "Mazi", "bab": "1. Bâb", "displayComponents": ["َ", "َ", "َ"], "steps": [] },
         "2": { "kalipNo": "2", "arapca": "يَفْعُلُ", "tur": "Muzari", "bab": "1. Bâb", "displayComponents": ["يَـ", "ْ", "ُ"], "steps": [] },
         "3": { "kalipNo": "3", "arapca": "أُفْعُلْ", "tur": "Emir", "bab": "1. Bâb", "displayComponents": ["اُ", "ْ", "ُ", "ْ"], "steps": [] },
@@ -660,42 +680,42 @@
         "ح-س-n": { "root": ["ح", "س", "ن"], "words": [ { "arapca": "حَسَن", "turkce": "Hasan 😊", "kalipNo": "17" }, { "arapca": "حُسَيْن", "turkce": "Hüseyin 🧒", "kalipNo": "49" }, { "arapca": "أَحْسَن", "turkce": "Ahsen 🌟", "kalipNo": "30" }, { "arapca": "حُسْنَى", "turkce": "Hüsna 🌸", "kalipNo": "51" }, { "arapca": "إِحْسَان", "turkce": "İhsan ❤️", "kalipNo": "55" }, { "arapca": "مُحْسِن", "turkce": "Muhsin 🥰", "kalipNo": "56" }, { "arapca": "تَحْسِين", "turkce": "Tahsin 👍", "kalipNo": "61" } ] },
         "س-ع-د": { "root": ["س", "ع", "د"], "words": [ { "arapca": "سَعَادَة", "turkce": "Saadet 🥳", "kalipNo": "22" }, { "arapca": "سُعَاد", "turkce": "Suad 😌", "kalipNo": "24" }, { "arapca": "سَعِيد", "turkce": "Said 😀", "kalipNo": "35" }, { "arapca": "مَسْعُود", "turkce": "Mesud 😁", "kalipNo": "36" } ] },
         "ج-ه-ل": { "root": ["ج", "ه", "ل"], "words": [ { "arapca": "جَاهِل", "turkce": "Cahil 🤷", "kalipNo": "33" }, { "arapca": "جَاهِلِيَّة", "turkce": "Cahiliye 🏺", "kalipNo": "33" }, { "arapca": "مَجْهُول", "turkce": "Meçhul ❓", "kalipNo": "36" }, { "arapca": "جُهَلَاء", "turkce": "Cühela 👥", "kalipNo": "46" } ] },
-        "و-ج-د": { "root": ["و", "ج", "د"], "words": [ { "arapca": "وُجُود", "turkce": "Vücud 🧘", "kalipNo": "25" }, { "arapca": "وِجْدَان", "turkce": "Vicdan 💖", "kalipNo": "29" }, { "arapca": "مَوْجُود", "turkce": "Mevcud 📍", "kalipNo": "36" }, { "arapca": "إِيجَاد", "turkce": "İcad 💡", "kalipNo": "55" }, { "arapca": "مُوجِد", "turkce": "Mucid 👨‍🔬", "kalipNo": "56" } ] },
+        "و-ج-د": { "root": ["و", "ج", "د"], "words": [ { "arapca": "وُجُود", "turkce": "Vücud 🧘", "kalipNo": "25" }, { "arapca": "وِجْدَان", "turkce": "Vicdan 💖", "kalipNo": "29" }, { "arapca": "مَوْجُود", "turkce": "Mevcud 📍", "kalipNo": "36" }, { "arapca": "إِيجَAD", "turkce": "İcad 💡", "kalipNo": "55" }, { "arapca": "مُوجِد", "turkce": "Mucid 👨‍🔬", "kalipNo": "56" } ] },
         "س-ك-n": { "root": ["س", "ك", "ن"], "words": [ { "arapca": "سَاكِن", "turkce": "Sakin 🏠", "kalipNo": "33" }, { "arapca": "مَسْكُون", "turkce": "Meskûn 🏘️", "kalipNo": "36" }, { "arapca": "مَسْكَن", "turkce": "Mesken 🏡", "kalipNo": "38" }, { "arapca": "إِسْكَان", "turkce": "İskan 🏗️", "kalipNo": "55" }, { "arapca": "تَسْكِين", "turkce": "Teskin 😌", "kalipNo": "61" } ] },
-        "ج-ه-د": { "root": ["ج", "ه", "د"], "words": [ { "arapca": "جَاهِد", "turkce": "Cahid 💪", "kalipNo": "33" }, { "arapca": "جِهَاد", "turkce": "Cihad ⚔️", "kalipNo": "68" }, { "arapca": "مُجَاهِد", "turkce": "Mücahid 🛡️", "kalipNo": "69" }, { "arapca": "اِجْتِهَاد", "turkce": "İçtihad ⚖️", "kalipNo": "80" }, { "arapca": "مُجْتَهِد", "turkce": "Müçtehid 👨‍⚖️", "kalipNo": "81" } ] },
+        "ج-ه-د": { "root": ["ج", "ه", "د"], "words": [ { "arapca": "جَاهِد", "turkce": "Cahid 💪", "kalipNo": "33" }, { "arapca": "جِهَاد", "turkce": "Cihad ⚔️", "kalipNo": "68" }, { "arapca": "مُجَاهِد", "turkce": "Mücahid 🛡️", "kalipNo": "69" }, { "arapca": "اِجْتِهَAD", "turkce": "İçtihad ⚖️", "kalipNo": "80" }, { "arapca": "مُجْتَهِد", "turkce": "Müçtehid 👨‍⚖️", "kalipNo": "81" } ] },
         "س-ل-م": { "root": ["س", "ل", "م"], "words": [ { "arapca": "سَلَام", "turkce": "Selam 🕊️", "kalipNo": "22" }, { "arapca": "سَلَامَة", "turkce": "Selamet 🛡️", "kalipNo": "22" }, { "arapca": "سَالِم", "turkce": "Salim ✅", "kalipNo": "33" }, { "arapca": "سَلِيم", "turkce": "Selim 😊", "kalipNo": "35" }, { "arapca": "إِسْلَام", "turkce": "İslam ☪️", "kalipNo": "55" }, { "arapca": "مُسْلِم", "turkce": "Müslim 🕌", "kalipNo": "56" }, { "arapca": "تَسْلِيم", "turkce": "Teslim 🤝", "kalipNo": "61" } ] },
         "ق-ر-ب": { "root": ["ق", "ر", "ب"], "words": [ { "arapca": "قُرْبَان", "turkce": "Kurban 🐑", "kalipNo": "27" }, { "arapca": "أَقْرَب", "turkce": "Akreb ➡️", "kalipNo": "30" }, { "arapca": "تَقْرِيبًا", "turkce": "Takriben 📐", "kalipNo": "61" } ] },
-        "ن-ظ-م": { "root": ["ن", "ظ", "م"], "words": [ { "arapca": "نَظْم", "turkce": "Nazm 📜", "kalipNo": "19" }, { "arapca": "نِظَام", "turkce": "Nizam ⚖️", "kalipNo": "23" }, { "arapca": "نَاظِم", "turkce": "Nazım ✍️", "kalipNo": "33" }, { "arapca": "مَنْظُوم", "turkce": "Manzum 🎶", "kalipNo": "36" }, { "arapca": "تَنْظِيم", "turkce": "Tanzim 🗂️", "kalipNo": "61" }, { "arapca": "اِنْتِظَام", "turkce": "İntizam 📏", "kalipNo": "80" }, { "arapca": "مُنْتَظَمًا", "turkce": "Muntazam ✨", "kalipNo": "82" } ] },
+        "ن-ظ-م": { "root": ["ن", "ظ", "م"], "words": [ { "arapca": "نَظْم", "turkce": "Nazm 📜", "kalipNo": "19" }, { "arapca": "نِظَAM", "turkce": "Nizam ⚖️", "kalipNo": "23" }, { "arapca": "نَاظِم", "turkce": "Nazım ✍️", "kalipNo": "33" }, { "arapca": "مَنْظُOM", "turkce": "Manzum 🎶", "kalipNo": "36" }, { "arapca": "تَنْظِيم", "turkce": "Tanzim 🗂️", "kalipNo": "61" }, { "arapca": "اِنْتِظَAM", "turkce": "İntizam 📏", "kalipNo": "80" }, { "arapca": "مُنْتَظَمًا", "turkce": "Muntazam ✨", "kalipNo": "82" } ] },
         "د-خ-ل": { "root": ["د", "خ", "ل"], "words": [ { "arapca": "دَاخِل", "turkce": "Dahil ➡️", "kalipNo": "33" }, { "arapca": "دَاخِلِيَّة", "turkce": "Dahiliye 🏥", "kalipNo": "33" }, { "arapca": "إِدْخَال", "turkce": "İthal 📥", "kalipNo": "55" }, { "arapca": "إِدْخَالَات", "turkce": "İthalat 📦", "kalipNo": "55" }, { "arapca": "مُدَاخَلَة", "turkce": "Müdahale ✋", "kalipNo": "67" } ] },
         "ر-ك-ب": { "root": ["ر", "ك", "ب"], "words": [ { "arapca": "مَرْكَب", "turkce": "Merkeb 🐴", "kalipNo": "38" }, { "arapca": "تَرْكِيب", "turkce": "Terkib 🧪", "kalipNo": "61" }, { "arapca": "مُرَكَّب", "turkce": "Mürekkeb ✒️", "kalipNo": "63" } ] },
-        "ط-ب-ق": { "root": ["ط", "ب", "ق"], "words": [ { "arapca": "طَبَقَة", "turkce": "Tabaka 層", "kalipNo": "17" }, { "arapca": "تَطْبِيق", "turkce": "Tatbik 🛠️", "kalipNo": "61" }, { "arapca": "تَطْبِيقَات", "turkce": "Tatbikat 🏋️", "kalipNo": "61" }, { "arapca": "مُطَابَقَات", "turkce": "Mutabakat 🤝", "kalipNo": "67" }, { "arapca": "مُطَابِق", "turkce": "Mutabık ✅", "kalipNo": "69" } ] },
-        "ن-ق-ل": { "root": ["ن", "ق", "ل"], "words": [ { "arapca": "نَقْلًا", "turkce": "Naklen ➡️", "kalipNo": "19" }, { "arapca": "نَقْلِيَّة", "turkce": "Nakliye 🚚", "kalipNo": "19" }, { "arapca": "نَقِيل", "turkce": "Nakil 🔄", "kalipNo": "35" }, { "arapca": "مَنْقُول", "turkce": "Menkul", "kalipNo": "36" }, { "arapca": "اِنْتِقَال", "turkce": "İntikal ↪️", "kalipNo": "80" } ] },
-        "ش-ر-ب": { "root": ["ش", "ر", "ب"], "words": [ { "arapca": "شَرْبَة", "turkce": "Şerbet 🍹", "kalipNo": "19" }, { "arapca": "شَرَاب", "turkce": "Şarap 🍷", "kalipNo": "22" }, { "arapca": "شُرُوب", "turkce": "Şurub 🍾", "kalipNo": "26" }, { "arapca": "مَشْرُوبَات", "turkce": "Meşrubat 🥤", "kalipNo": "36" }, { "arapca": "مَشْرَب", "turkce": "Meşreb 🌿", "kalipNo": "38" } ] },
-        "ر-ج-ع": { "root": ["ر", "ج", "ع"], "words": [ { "arapca": "مَرْجِع", "turkce": "Merci ↩️", "kalipNo": "37" }, { "arapca": "مُرَاجَعَة", "turkce": "Müracaat 📝", "kalipNo": "67" }, { "arapca": "اِرْتِجَاع", "turkce": "İrtica 🔙", "kalipNo": "80" } ] },
-        "ش-ك-ل": { "root": ["ش", "ك", "ل"], "words": [ { "arapca": "شَكْل", "turkce": "Şekl 🧩", "kalipNo": "19" }, { "arapca": "أَشْكَال", "turkce": "Eşkal 🔶", "kalipNo": "41" }, { "arapca": "مُشْكِل", "turkce": "Müşkil 🤔", "kalipNo": "56" }, { "arapca": "تَشْكِيل", "turkce": "Teşkil 🧬", "kalipNo": "61" }, { "arapca": "تَشْكِيلَات", "turkce": "Teşkilat 👥", "kalipNo": "61" } ] },
-        "ن-س-ب": { "root": ["ن", "س", "ب"], "words": [ { "arapca": "نَسَب", "turkce": "Neseb 👨‍👩‍👧‍👦", "kalipNo": "17" }, { "arapca": "نِسْبَة", "turkce": "Nisbet 📊", "kalipNo": "20" }, { "arapca": "مَنْسُوب", "turkce": "Mensub 🔗", "kalipNo": "36" }, { "arapca": "مُنَاسَبَة", "turkce": "Münasebet 🎉", "kalipNo": "67" }, { "arapca": "اِنْتِسَاب", "turkce": "İntisab 🖇️", "kalipNo": "80" } ] },
-        "ش-ه-د": { "root": ["ش", "ه", "د"], "words": [ { "arapca": "شَهَادَة", "turkce": "Şehadet 📜", "kalipNo": "22" }, { "arapca": "شَاهِد", "turkce": "Şahid 👀", "kalipNo": "33" }, { "arapca": "شَهِيد", "turkce": "Şehid 🌺", "kalipNo": "35" }, { "arapca": "شُهَدَاء", "turkce": "Şüheda 🌷", "kalipNo": "46" }, { "arapca": "مُشَاهَدَة", "turkce": "Müşahede 🔬", "kalipNo": "67" } ] },
-        "ب-ر-ك": { "root": ["ب", "ر", "ك"], "words": [ { "arapca": "بَرَكَة", "turkce": "Bereket 🌾", "kalipNo": "17" }, { "arapca": "تَبْرِيك", "turkce": "Tebrik 🎉", "kalipNo": "61" }, { "arapca": "مُبَارَك", "turkce": "Mübarek ✨", "kalipNo": "70" }, { "arapca": "تَبَرُّك", "turkce": "Teberrük 🙏", "kalipNo": "91" } ] },
-        "ق-د-ر": { "root": ["ق", "د", "ر"], "words": [ { "arapca": "مِقْدَار", "turkce": "Mikdar 📏", "kalipNo": "40" }, { "arapca": "قَدَر", "turkce": "Kader 🌌", "kalipNo": "17" }, { "arapca": "تَقْدِير", "turkce": "Takdir 👍", "kalipNo": "61" }, { "arapca": "مُقَدَّرَات", "turkce": "Mukadderat 🌠", "kalipNo": "63" }, { "arapca": "قُدْرَة", "turkce": "Kudret 💪", "kalipNo": "21" }, { "arapca": "اِقْتِدَار", "turkce": "İktidar 🏛️", "kalipNo": "80" }, { "arapca": "قَادِر", "turkce": "Kâdir ⚡", "kalipNo": "33" }, { "arapca": "مُقْتَدِر", "turkce": "Muktedir 🌟", "kalipNo": "81" }, { "arapca": "قَدِير", "turkce": "Kâdir ✨", "kalipNo": "35" } ] },
-        "م-ل-ك": { "root": ["م", "ل", "ك"], "words": [ { "arapca": "مَلَك", "turkce": "Melek 😇", "kalipNo": "17" }, { "arapca": "مُلْك", "turkce": "Mülk 👑", "kalipNo": "21" }, { "arapca": "مَالِك", "turkce": "Malik 🔑", "kalipNo": "33" }, { "arapca": "مَلِيك", "turkce": "Melik 🤴", "kalipNo": "35" }, { "arapca": "مَمْلُوك", "turkce": "Memluk 💂", "kalipNo": "36" }, { "arapca": "مَمْلَكَة", "turkce": "Memleket 🇹🇷", "kalipNo": "38" }, { "arapca": "أَمْلَاك", "turkce": "Emlak 🏘️", "kalipNo": "41" } ] },
-        "ر-س-ل": { "root": ["ر", "س", "ل"], "words": [ { "arapca": "رِسَالَة", "turkce": "Risale 📜", "kalipNo": "23" }, { "arapca": "رَسُول", "turkce": "Resul 🗣️", "kalipNo": "26" }, { "arapca": "أَرْسَل", "turkce": "Ersel 🕊️", "kalipNo": "30" }, { "arapca": "إِرْسَالِيَّة", "turkce": "İrsaliye 🧾", "kalipNo": "55" }, { "arapca": "مُرْسَل", "turkce": "Mürsel 📨", "kalipNo": "57" } ] },
-        "ن-ص-ر": { "root": ["ن", "ص", "ر"], "words": [ { "arapca": "نَصْر", "turkce": "Nasr 🏆", "kalipNo": "19" }, { "arapca": "نُصْرَة", "turkce": "Nusret ✌️", "kalipNo": "21" }, { "arapca": "نَاصِر", "turkce": "Nasır 🛡️", "kalipNo": "33" }, { "arapca": "مَنْصُور", "turkce": "Mansur 🥇", "kalipNo": "36" } ] },
-        "ح-م-ل": { "root": ["ح", "م", "ل"], "words": [ { "arapca": "حَمْلَة", "turkce": "Hamle ♟️", "kalipNo": "19" }, { "arapca": "حَامِلَة", "turkce": "Hamile 🤰", "kalipNo": "33" }, { "arapca": "حَمَّال", "turkce": "Hammal 🎒", "kalipNo": "34" }, { "arapca": "اِحْتِمَال", "turkce": "İhtimal 🎲", "kalipNo": "80" }, { "arapca": "مُحْتَمَل", "turkce": "Muhtemel ✅", "kalipNo": "82" }, { "arapca": "تَحَمُّل", "turkce": "Tahammül 🏋️", "kalipNo": "91" } ] },
-        "ح-ق-ق": { "root": ["ح", "ق", "ق"], "words": [ { "arapca": "حَقّ", "turkce": "Hak ⚖️", "kalipNo": "19" }, { "arapca": "حُقُوق", "turkce": "Hukuk 🏛️", "kalipNo": "43" }, { "arapca": "حَقِيقة", "turkce": "Hakikat 💎", "kalipNo": "35" }, { "arapca": "تَحْقِيق", "turkce": "Tahkik 🕵️", "kalipNo": "61" }, { "arapca": "مُحَقَّق", "turkce": "Muhakkak ✅", "kalipNo": "63" }, { "arapca": "اِسْتِحْقَاق", "turkce": "İstihkak 🏅", "kalipNo": "103" }, { "arapca": "مُسْتَحَقّ", "turkce": "Müstehak 👍", "kalipNo": "105" } ] },
-        "خ-ل-ص": { "root": ["خ", "ل", "ص"], "words": [ { "arapca": "خَالِص", "turkce": "Halis 💧", "kalipNo": "33" }, { "arapca": "إِخْلَاص", "turkce": "İhlas 💖", "kalipNo": "55" }, { "arapca": "مُخْلِص", "turkce": "Muhlis 😊", "kalipNo": "56" } ] },
-        "ك-م-ل": { "root": ["ك", "م", "ل"], "words": [ { "arapca": "كَمَال", "turkce": "Kemal ✨", "kalipNo": "22" }, { "arapca": "كَامِل", "turkce": "Kamil 🌟", "kalipNo": "33" }, { "arapca": "إِكْمَال", "turkce": "İkmal 🏁", "kalipNo": "55" }, { "arapca": "تَكْمِيل", "turkce": "Tekmil ✅", "kalipNo": "61" }, { "arapca": "مُكَمَّل", "turkce": "Mükemmel 💯", "kalipNo": "63" } ] },
-        "ر-ش-د": { "root": ["ر", "ش", "د"], "words": [ { "arapca": "رَشِيد", "turkce": "Reşid 🧠", "kalipNo": "35" }, { "arapca": "رُشْد", "turkce": "Rüşd 🧑", "kalipNo": "21" }, { "arapca": "إِرْشَاد", "turkce": "İrşad 🧭", "kalipNo": "55" }, { "arapca": "رَشَاد", "turkce": "Reşad ✨", "kalipNo": "22" }, { "arapca": "مُرْشِد", "turkce": "Mürşid 🧑‍🏫", "kalipNo": "56" }, { "arapca": "رَاشِد", "turkce": "Raşid 🚶", "kalipNo": "33" } ] },
+        "ط-ب-ق": { "root": ["ط", "ب", "ق"], "words": [ { "arapca": "طَبَقَة", "turkce": "Tabaka 層", "kalipNo": "17" }, { "arapca": "تَطْبِIQ", "turkce": "Tatbik 🛠️", "kalipNo": "61" }, { "arapca": "تَطْبِIQÂT", "turkce": "Tatbikat 🏋️", "kalipNo": "61" }, { "arapca": "مُطَابَقَات", "turkce": "Mutabakat 🤝", "kalipNo": "67" }, { "arapca": "مُطَابِق", "turkce": "Mutabık ✅", "kalipNo": "69" } ] },
+        "ن-ق-ل": { "root": ["ن", "ق", "ل"], "words": [ { "arapca": "نَقْلًا", "turkce": "Naklen ➡️", "kalipNo": "19" }, { "arapca": "نَقْلِيَّة", "turkce": "Nakliye 🚚", "kalipNo": "19" }, { "arapca": "نَقِIL", "turkce": "Nakil 🔄", "kalipNo": "35" }, { "arapca": "مَنْقُول", "turkce": "Menkul", "kalipNo": "36" }, { "arapca": "اِنْتِقَال", "turkce": "İntikal ↪️", "kalipNo": "80" } ] },
+        "ش-ر-ب": { "root": ["ش", "ر", "ب"], "words": [ { "arapca": "شَرْبَة", "turkce": "Şerbet 🍹", "kalipNo": "19" }, { "arapca": "شَرَAB", "turkce": "Şarap 🍷", "kalipNo": "22" }, { "arapca": "شُرُOB", "turkce": "Şurub 🍾", "kalipNo": "26" }, { "arapca": "مَشْرُOBÂT", "turkce": "Meşrubat 🥤", "kalipNo": "36" }, { "arapca": "مَشْرَب", "turkce": "Meşreb 🌿", "kalipNo": "38" } ] },
+        "ر-ج-ع": { "root": ["ر", "ج", "ع"], "words": [ { "arapca": "مَرْجِع", "turkce": "Merci ↩️", "kalipNo": "37" }, { "arapca": "مُرَAJAAH", "turkce": "Müracaat 📝", "kalipNo": "67" }, { "arapca": "اِرْتِJAA", "turkce": "İrtica 🔙", "kalipNo": "80" } ] },
+        "ش-ك-ل": { "root": ["ش", "ك", "ل"], "words": [ { "arapca": "شَكْل", "turkce": "Şekl 🧩", "kalipNo": "19" }, { "arapca": "أَشْكَAL", "turkce": "Eşkal 🔶", "kalipNo": "41" }, { "arapca": "مُشْكِل", "turkce": "Müşkil 🤔", "kalipNo": "56" }, { "arapca": "تَشْكِIL", "turkce": "Teşkil 🧬", "kalipNo": "61" }, { "arapca": "تَشْكِILÂT", "turkce": "Teşkilat 👥", "kalipNo": "61" } ] },
+        "ن-س-ب": { "root": ["ن", "س", "ب"], "words": [ { "arapca": "نَسَب", "turkce": "Neseb 👨‍👩‍👧‍👦", "kalipNo": "17" }, { "arapca": "نِسْبَة", "turkce": "Nisbet 📊", "kalipNo": "20" }, { "arapca": "مَنْسُOB", "turkce": "Mensub 🔗", "kalipNo": "36" }, { "arapca": "مُنَASABEH", "turkce": "Münasebet 🎉", "kalipNo": "67" }, { "arapca": "اِنْتِسَAB", "turkce": "İntisab 🖇️", "kalipNo": "80" } ] },
+        "ش-ه-د": { "root": ["ش", "ه", "د"], "words": [ { "arapca": "شَهَADET", "turkce": "Şehadet 📜", "kalipNo": "22" }, { "arapca": "شَاهِد", "turkce": "Şahid 👀", "kalipNo": "33" }, { "arapca": "شَهِID", "turkce": "Şehid 🌺", "kalipNo": "35" }, { "arapca": "شُهَدَاء", "turkce": "Şüheda 🌷", "kalipNo": "46" }, { "arapca": "مُشَAHEDEH", "turkce": "Müşahede 🔬", "kalipNo": "67" } ] },
+        "ب-ر-ك": { "root": ["ب", "ر", "ك"], "words": [ { "arapca": "بَرَكَة", "turkce": "Bereket 🌾", "kalipNo": "17" }, { "arapca": "تَبْرِIK", "turkce": "Tebrik 🎉", "kalipNo": "61" }, { "arapca": "مُبَARAK", "turkce": "Mübarek ✨", "kalipNo": "70" }, { "arapca": "تَبَرُّk", "turkce": "Teberrük 🙏", "kalipNo": "91" } ] },
+        "ق-د-ر": { "root": ["ق", "د", "ر"], "words": [ { "arapca": "مِقْدَAR", "turkce": "Mikdar 📏", "kalipNo": "40" }, { "arapca": "قَدَر", "turkce": "Kader 🌌", "kalipNo": "17" }, { "arapca": "تَقْدِIR", "turkce": "Takdir 👍", "kalipNo": "61" }, { "arapca": "مُقَدَّRÂT", "turkce": "Mukadderat 🌠", "kalipNo": "63" }, { "arapca": "قُدْرَة", "turkce": "Kudret 💪", "kalipNo": "21" }, { "arapca": "اِقْتِدَAR", "turkce": "İktidar 🏛️", "kalipNo": "80" }, { "arapca": "قَADİR", "turkce": "Kâdir ⚡", "kalipNo": "33" }, { "arapca": "مُقْتَدِر", "turkce": "Muktedir 🌟", "kalipNo": "81" }, { "arapca": "قَدِIR", "turkce": "Kâdir ✨", "kalipNo": "35" } ] },
+        "م-ل-ك": { "root": ["م", "ل", "ك"], "words": [ { "arapca": "مَلَk", "turkce": "Melek 😇", "kalipNo": "17" }, { "arapca": "مُلْk", "turkce": "Mülk 👑", "kalipNo": "21" }, { "arapca": "مَالِk", "turkce": "Malik 🔑", "kalipNo": "33" }, { "arapca": "مَلِIK", "turkce": "Melik 🤴", "kalipNo": "35" }, { "arapca": "مَمْلُOK", "turkce": "Memluk 💂", "kalipNo": "36" }, { "arapca": "مَمْلَkEH", "turkce": "Memleket 🇹🇷", "kalipNo": "38" }, { "arapca": "أَمْلَAK", "turkce": "Emlak 🏘️", "kalipNo": "41" } ] },
+        "ر-س-ل": { "root": ["ر", "س", "ل"], "words": [ { "arapca": "رِسَالَة", "turkce": "Risale 📜", "kalipNo": "23" }, { "arapca": "رَسُOL", "turkce": "Resul 🗣️", "kalipNo": "26" }, { "arapca": "أَرْسَل", "turkce": "Ersel 🕊️", "kalipNo": "30" }, { "arapca": "إِرْسَالِيَّة", "turkce": "İrsaliye 🧾", "kalipNo": "55" }, { "arapca": "مُرْسَل", "turkce": "Mürsel 📨", "kalipNo": "57" } ] },
+        "ن-ص-ر": { "root": ["ن", "ص", "ر"], "words": [ { "arapca": "نَصْر", "turkce": "Nasr 🏆", "kalipNo": "19" }, { "arapca": "نُصْرَة", "turkce": "Nusret ✌️", "kalipNo": "21" }, { "arapca": "نَASIR", "turkce": "Nasır 🛡️", "kalipNo": "33" }, { "arapca": "مَنْصُOR", "turkce": "Mansur 🥇", "kalipNo": "36" } ] },
+        "ح-م-ل": { "root": ["ح", "م", "ل"], "words": [ { "arapca": "حَمْلَة", "turkce": "Hamle ♟️", "kalipNo": "19" }, { "arapca": "حَAMİLE", "turkce": "Hamile 🤰", "kalipNo": "33" }, { "arapca": "حَمَّAL", "turkce": "Hammal 🎒", "kalipNo": "34" }, { "arapca": "اِحْتِمَAL", "turkce": "İhtimal 🎲", "kalipNo": "80" }, { "arapca": "مُحْتَمَل", "turkce": "Muhtemel ✅", "kalipNo": "82" }, { "arapca": "تَحَمُّل", "turkce": "Tahammül 🏋️", "kalipNo": "91" } ] },
+        "ح-ق-ق": { "root": ["ح", "ق", "ق"], "words": [ { "arapca": "حَقّ", "turkce": "Hak ⚖️", "kalipNo": "19" }, { "arapca": "حُقُOQ", "turkce": "Hukuk 🏛️", "kalipNo": "43" }, { "arapca": "حَقِيقة", "turkce": "Hakikat 💎", "kalipNo": "35" }, { "arapca": "تَحْقِIQ", "turkce": "Tahkik 🕵️", "kalipNo": "61" }, { "arapca": "مُحَقَّق", "turkce": "Muhakkak ✅", "kalipNo": "63" }, { "arapca": "اِسْتِحْقَAQ", "turkce": "İstihkak 🏅", "kalipNo": "103" }, { "arapca": "مُسْتَحَقّ", "turkce": "Müstehak 👍", "kalipNo": "105" } ] },
+        "خ-ل-ص": { "root": ["خ", "ل", "ص"], "words": [ { "arapca": "خَالِص", "turkce": "Halis 💧", "kalipNo": "33" }, { "arapca": "إِخْلَAS", "turkce": "İhlas 💖", "kalipNo": "55" }, { "arapca": "مُخْلِص", "turkce": "Muhlis 😊", "kalipNo": "56" } ] },
+        "ك-م-ل": { "root": ["ك", "م", "ل"], "words": [ { "arapca": "كَمَAL", "turkce": "Kemal ✨", "kalipNo": "22" }, { "arapca": "كَAMİL", "turkce": "Kamil 🌟", "kalipNo": "33" }, { "arapca": "إِكْمَAL", "turkce": "İkmal 🏁", "kalipNo": "55" }, { "arapca": "تَكْمِIL", "turkce": "Tekmil ✅", "kalipNo": "61" }, { "arapca": "مُكَمَّل", "turkce": "Mükemmel 💯", "kalipNo": "63" } ] },
+        "ر-ش-د": { "root": ["ر", "ش", "د"], "words": [ { "arapca": "رَشِID", "turkce": "Reşid 🧠", "kalipNo": "35" }, { "arapca": "رُشْد", "turkce": "Rüşd 🧑", "kalipNo": "21" }, { "arapca": "إِرْشَAD", "turkce": "İrşad 🧭", "kalipNo": "55" }, { "arapca": "رَشَAD", "turkce": "Reşad ✨", "kalipNo": "22" }, { "arapca": "مُرْشِد", "turkce": "Mürşid 🧑‍🏫", "kalipNo": "56" }, { "arapca": "رَاشِد", "turkce": "Raşid 🚶", "kalipNo": "33" } ] },
         "أ-م-n": { "root": ["أ", "م", "ن"], "words": [ { "arapca": "أَمَان", "turkce": "Eman 🛡️", "kalipNo": "22" }, { "arapca": "أَمِين", "turkce": "Emin 🔒", "kalipNo": "35" }, { "arapca": "إِيمَان", "turkce": "İman 💖", "kalipNo": "55" }, { "arapca": "مُؤْمِن", "turkce": "Mümin 🙏", "kalipNo": "56" }, { "arapca": "تَأْمِين", "turkce": "Temin 🤝", "kalipNo": "61" } ] },
-        "ج-م-ع": { "root": ["ج", "م", "ع"], "words": [ { "arapca": "جَمْع", "turkce": "Cem 👥", "kalipNo": "19" }, { "arapca": "جَمْعِيَّة", "turkce": "Cemiyet 🏛️", "kalipNo": "19" }, { "arapca": "جَمَاعة", "turkce": "Cemaat 👨‍👩‍👧‍👦", "kalipNo": "22" }, { "arapca": "جَامِع", "turkce": "Cami 🕌", "kalipNo": "33" }, { "arapca": "جَامِعَة", "turkce": "Camia 🎓", "kalipNo": "33" }, { "arapca": "مَجْمُوعَة", "turkce": "Mecmua 📚", "kalipNo": "36" }, { "arapca": "اِجْتِمَاع", "turkce": "İçtima 🤝", "kalipNo": "80" } ] },
-        "ح-م-د": { "root": ["ح", "م", "د"], "words": [ { "arapca": "حَمْد", "turkce": "Hamd 🙏", "kalipNo": "19" }, { "arapca": "حَمْدِيَّة", "turkce": "Hamdiye 🌸", "kalipNo": "19" }, { "arapca": "أَحْمَد", "turkce": "Ahmed 🌟", "kalipNo": "30" }, { "arapca": "حَمِيد", "turkce": "Hamid 😊", "kalipNo": "35" }, { "arapca": "مَحْمُود", "turkce": "Mahmud ✨", "kalipNo": "36" }, { "arapca": "مُحَمَّد", "turkce": "Muhammed 💖", "kalipNo": "63" } ] },
-        "ش-ه-ر": { "root": ["ش", "ه", "ر"], "words": [ { "arapca": "شَهْر", "turkce": "Şehr 📅", "kalipNo": "19" }, { "arapca": "شُهْرَة", "turkce": "Şöhret 🌟", "kalipNo": "21" }, { "arapca": "مَشْهُور", "turkce": "Meşhur 🤩", "kalipNo": "36" }, { "arapca": "تَشْهِير", "turkce": "Teşhir 🎨", "kalipNo": "61" } ] },
-        "ش-ك-ر": { "root": ["ش", "ك", "ر"], "words": [ { "arapca": "شُكْر", "turkce": "Şükr 🙏", "kalipNo": "21" }, { "arapca": "شُكْرِيّ", "turkce": "Şükri 🧑", "kalipNo": "21" }, { "arapca": "شُكْرَان", "turkce": "Şükran 💖", "kalipNo": "27" }, { "arapca": "شَاكِر", "turkce": "Şakir 😊", "kalipNo": "33" }, { "arapca": "تَشَكُّر", "turkce": "Teşekkür 🙌", "kalipNo": "91" }, { "arapca": "مُتَشَكِّر", "turkce": "Müteşekkir 🥰", "kalipNo": "92" } ] },
-        "ف-ك-ر": { "root": ["ف", "ك", "ر"], "words": [ { "arapca": "فِكْر", "turkce": "Fikr 🧠", "kalipNo": "20" }, { "arapca": "فِكْرِيّ", "turkce": "Fikri 🧐", "kalipNo": "20" }, { "arapca": "فِكْرَة", "turkce": "Fıkra 😂", "kalipNo": "20" }, { "arapca": "تَفَكُّر", "turkce": "Tefekkür 🤔", "kalipNo": "91" }, { "arapca": "مُتَفَكِّر", "turkce": "Mütefekkir 🧘", "kalipNo": "92" } ] },
-        "و-ك-ل": { "root": ["و", "ك", "ل"], "words": [ { "arapca": "وَكَالَة", "turkce": "Vekalet 📜", "kalipNo": "22" }, { "arapca": "وَكِيل", "turkce": "Vekil 🧑‍💼", "kalipNo": "35" }, { "arapca": "مُوَكِّل", "turkce": "Müvekkil 👤", "kalipNo": "62" }, { "arapca": "تَوَكُّل", "turkce": "Tevekkül 🤲", "kalipNo": "91" } ] },
-        "ك-ب-ر": { "root": ["ك", "ب", "ر"], "words": [ { "arapca": "كِبْر", "turkce": "Kibr 😤", "kalipNo": "20" }, { "arapca": "كِبَAR", "turkce": "Kibar 😊", "kalipNo": "44" }, { "arapca": "أَكْبَر", "turkce": "Ekber ⬆️", "kalipNo": "50" }, { "arapca": "كُبْرَى", "turkce": "Kübra 🌟", "kalipNo": "51" }, { "arapca": "تَكْبِير", "turkce": "Tekbir ☝️", "kalipNo": "61" } ] },
-        "ع-ج-ز": { "root": ["ع", "ج", "ز"], "words": [ { "arapca": "عَاجِز", "turkce": "Aciz 😩", "kalipNo": "33" }, { "arapca": "عَجَزَة", "turkce": "Aceze 👥", "kalipNo": "47" }, { "arapca": "مُعْجِزَة", "turkce": "Mucize ✨", "kalipNo": "56" }, { "arapca": "تَعْجِيز", "turkce": "Taciz 🚫", "kalipNo": "61" } ] },
-        "ح-ر-م": { "root": ["ح", "ر", "م"], "words": [ { "arapca": "إِحْرَام", "turkce": "İhram 🕋", "kalipNo": "55" }, { "arapca": "حَرَم", "turkce": "Harem 🕌", "kalipNo": "17" }, { "arapca": "مُحَرَّم", "turkce": "Muharrem 🌙", "kalipNo": "63" }, { "arapca": "حَرَام", "turkce": "Haram 🚫", "kalipNo": "22" }, { "arapca": "اِحْتِرَام", "turkce": "İhtiram 🫡", "kalipNo": "80" }, { "arapca": "مَحْرُوم", "turkce": "Mahrum 😔", "kalipNo": "36" }, { "arapca": "مُحْتَرَم", "turkce": "Muhterem 🧐", "kalipNo": "82" }, { "arapca": "مَحْرَم", "turkce": "Mahrem 🤫", "kalipNo": "38" } ] },
-        "س-أ-ل": { "root": ["س", "أ", "ل"], "words": [ { "arapca": "سُؤَال", "turkce": "Sual ❓", "kalipNo": "24" }, { "arapca": "مَسْؤُول", "turkce": "Mesul 👮", "kalipNo": "36" }, { "arapca": "مَسْأَلَة", "turkce": "Mesele ❔", "kalipNo": "38" } ] },
+        "ج-م-ع": { "root": ["ج", "م", "ع"], "words": [ { "arapca": "جَمْع", "turkce": "Cem 👥", "kalipNo": "19" }, { "arapca": "جَمْعِيَّة", "turkce": "Cemiyet 🏛️", "kalipNo": "19" }, { "arapca": "جَمَاعة", "turkce": "Cemaat 👨‍👩‍👧‍👦", "kalipNo": "22" }, { "arapca": "جَامِع", "turkce": "Cami 🕌", "kalipNo": "33" }, { "arapca": "جَامِعَة", "turkce": "Camia 🎓", "kalipNo": "33" }, { "arapca": "مَجْمُOAH", "turkce": "Mecmua 📚", "kalipNo": "36" }, { "arapca": "اِجْتِمَاع", "turkce": "İçtima 🤝", "kalipNo": "80" } ] },
+        "ح-م-د": { "root": ["ح", "م", "د"], "words": [ { "arapca": "حَمْد", "turkce": "Hamd 🙏", "kalipNo": "19" }, { "arapca": "حَمْدِيَّة", "turkce": "Hamdiye 🌸", "kalipNo": "19" }, { "arapca": "أَحْمَد", "turkce": "Ahmed 🌟", "kalipNo": "30" }, { "arapca": "حَمِID", "turkce": "Hamid 😊", "kalipNo": "35" }, { "arapca": "مَحْمُOD", "turkce": "Mahmud ✨", "kalipNo": "36" }, { "arapca": "مُحَمَّد", "turkce": "Muhammed 💖", "kalipNo": "63" } ] },
+        "ش-ه-ر": { "root": ["ش", "ه", "ر"], "words": [ { "arapca": "شَهْر", "turkce": "Şehr 📅", "kalipNo": "19" }, { "arapca": "شُهْرَة", "turkce": "Şöhret 🌟", "kalipNo": "21" }, { "arapca": "مَشْهُOR", "turkce": "Meşhur 🤩", "kalipNo": "36" }, { "arapca": "تَشْهِIR", "turkce": "Teşhir 🎨", "kalipNo": "61" } ] },
+        "ش-ك-ر": { "root": ["ش", "ك", "ر"], "words": [ { "arapca": "شُكْر", "turkce": "Şükr 🙏", "kalipNo": "21" }, { "arapca": "شُkRİY", "turkce": "Şükri 🧑", "kalipNo": "21" }, { "arapca": "شُkRÂN", "turkce": "Şükran 💖", "kalipNo": "27" }, { "arapca": "شَاكِر", "turkce": "Şakir 😊", "kalipNo": "33" }, { "arapca": "تَشَkُّر", "turkce": "Teşekkür 🙌", "kalipNo": "91" }, { "arapca": "مُتَشَkِّr", "turkce": "Müteşekkir 🥰", "kalipNo": "92" } ] },
+        "ف-ك-ر": { "root": ["ف", "ك", "ر"], "words": [ { "arapca": "فِكْر", "turkce": "Fikr 🧠", "kalipNo": "20" }, { "arapca": "فِkRİ", "turkce": "Fikri 🧐", "kalipNo": "20" }, { "arapca": "فِkREH", "turkce": "Fıkra 😂", "kalipNo": "20" }, { "arapca": "تَفَkُّر", "turkce": "Tefekkür 🤔", "kalipNo": "91" }, { "arapca": "مُتَفَkِّr", "turkce": "Mütefekkir 🧘", "kalipNo": "92" } ] },
+        "و-ك-ل": { "root": ["و", "ك", "ل"], "words": [ { "arapca": "وَكَALET", "turkce": "Vekalet 📜", "kalipNo": "22" }, { "arapca": "وَكِIL", "turkce": "Vekil 🧑‍💼", "kalipNo": "35" }, { "arapca": "مُوَkِّl", "turkce": "Müvekkil 👤", "kalipNo": "62" }, { "arapca": "تَوَkُّل", "turkce": "Tevekkül 🤲", "kalipNo": "91" } ] },
+        "ك-ب-ر": { "root": ["ك", "ب", "ر"], "words": [ { "arapca": "كِبْر", "turkce": "Kibr 😤", "kalipNo": "20" }, { "arapca": "كِبَAR", "turkce": "Kibar 😊", "kalipNo": "44" }, { "arapca": "أَkْبَـr", "turkce": "Ekber ⬆️", "kalipNo": "50" }, { "arapca": "كُبْرَى", "turkce": "Kübra 🌟", "kalipNo": "51" }, { "arapca": "تَkْبِيـr", "turkce": "Tekbir ☝️", "kalipNo": "61" } ] },
+        "ع-ج-ز": { "root": ["ع", "ج", "ز"], "words": [ { "arapca": "عَAJİZ", "turkce": "Aciz 😩", "kalipNo": "33" }, { "arapca": "عَجَZET", "turkce": "Aceze 👥", "kalipNo": "47" }, { "arapca": "مُعْجِZET", "turkce": "Mucize ✨", "kalipNo": "56" }, { "arapca": "تَعْجِIZ", "turkce": "Taciz 🚫", "kalipNo": "61" } ] },
+        "ح-ر-م": { "root": ["ح", "ر", "م"], "words": [ { "arapca": "إِحْرَAM", "turkce": "İhram 🕋", "kalipNo": "55" }, { "arapca": "حَرَم", "turkce": "Harem 🕌", "kalipNo": "17" }, { "arapca": "مُحَرَّم", "turkce": "Muharrem 🌙", "kalipNo": "63" }, { "arapca": "حَرَAM", "turkce": "Haram 🚫", "kalipNo": "22" }, { "arapca": "اِحْتِرَAM", "turkce": "İhtiram 🫡", "kalipNo": "80" }, { "arapca": "مَحْرُOM", "turkce": "Mahrum 😔", "kalipNo": "36" }, { "arapca": "مُحْتَرَم", "turkce": "Muhterem 🧐", "kalipNo": "82" }, { "arapca": "مَحْرَم", "turkce": "Mahrem 🤫", "kalipNo": "38" } ] },
+        "س-أ-ل": { "root": ["س", "أ", "ل"], "words": [ { "arapca": "سُؤَال", "turkce": "Sual ❓", "kalipNo": "24" }, { "arapca": "مَسْؤُOL", "turkce": "Mesul 👮", "kalipNo": "36" }, { "arapca": "مَسْأَلَة", "turkce": "Mesele ❔", "kalipNo": "38" } ] },
         "خ-ل-ف": { "root": ["خ", "ل", "ف"], "words": [] },
         "ع-م-ل": { "root": ["ع", "م", "ل"], "words": [] },
         "خ-ر-ج": { "root": ["خ", "ر", "ج"], "words": [] }, 
@@ -826,24 +846,21 @@
                  // --- Yeni Mobil Filtreleme Mantığı (Benzer kalıpları önle) ---
                  let uniqueKalıpWords = [];
                  const seenKalıpNumbers = new Set();
-                 const shuffledWords = [...allWordsForThisRoot].sort(() => 0.5 - Math.random());
+                 // Önce kalıba göre grupla ve karıştır
+                 const wordsByKalıp = allWordsForThisRoot.reduce((acc, word) => {
+                    if(!acc[word.kalipNo]) acc[word.kalipNo] = [];
+                    acc[word.kalipNo].push(word);
+                    return acc;
+                 }, {});
+                 const shuffledKalıpNumbers = Object.keys(wordsByKalıp).sort(() => 0.5 - Math.random());
                  
-                 for (const word of shuffledWords) {
-                     if (!seenKalıpNumbers.has(word.kalipNo)) {
-                         uniqueKalıpWords.push(word);
-                         seenKalıpNumbers.add(word.kalipNo);
-                     }
+                 // 3 benzersiz kalıptan 1'er kelime al
+                 for (const kalıpNo of shuffledKalıpNumbers) {
+                     if(uniqueKalıpWords.length >= 3) break;
+                     const wordFromKalıp = wordsByKalıp[kalıpNo][0]; // O kalıptan ilk kelimeyi al
+                     uniqueKalıpWords.push(wordFromKalıp);
                  }
                  
-                 // 3'ten az benzersiz kalıp varsa, kalanı (benzer kalıplı da olsa) ekle
-                 if (uniqueKalıpWords.length < 3) {
-                     for (const word of shuffledWords) {
-                         if (uniqueKalıpWords.length >= 3) break; // 3'e ulaştık, dur
-                         if (!uniqueKalıpWords.find(w => w.arapca === word.arapca)) {
-                             uniqueKalıpWords.push(word);
-                         }
-                     }
-                 }
                  allWordsForThisRoot = uniqueKalıpWords.slice(0, 3); // Her durumda ilk 3'ünü al
                  // --- Mobil Filtreleme Sonu ---
              }
@@ -897,7 +914,7 @@
 
             // 2. Kalıp Alanları
             l2PatternsWrapper.innerHTML = ''; // Temizle
-
+            
             selectedPatterns.forEach((patternId) => {
                  const groupElement = document.createElement('div');
                  groupElement.className = 'l2-pattern-group'; groupElement.dataset.patternId = patternId;
@@ -1011,7 +1028,7 @@
             e.preventDefault(); // Sayfanın kaymasını engelle
             
             draggedRootElement = e.target.closest('.l2-draggable-root'); // Sürüklenen asıl kart
-            if (!draggedRootElement) return;
+            if (!draggedRootElement || draggedRootElement.classList.contains('faded')) return;
 
             playGenericSound('touch');
             isTouching = true;
